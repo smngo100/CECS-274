@@ -30,12 +30,12 @@ class DLList(List):
 
     def get(self, i) -> object:
         if i < 0 or i >= self.n: # Precondition
-            raise Exception
+            raise Exception()
         return self.get_node(i).x # Return the i-th node
 
     def set(self, i: int, x: object) -> object:
         if i < 0 or i >= self.n:
-            raise Exception
+            raise Exception()
         u = self.get_node(i) # i-th node
         y = u.x # Data from the i-th node
         u.x = x # Updating / overwriting data
@@ -43,7 +43,7 @@ class DLList(List):
 
     def add_before(self, w: Node, x: object) -> Node:
         if w == None:
-            return Exception
+            return Exception()
         u = self.Node(x)    # Step 1
         u.prev = w.prev     # Step 2
         u.next = w          # Step 2
@@ -54,7 +54,7 @@ class DLList(List):
 
     def add(self, i: int, x: object):
         if i < 0 or i > self.n: # Precondition
-            return Exception
+            return Exception()
         return self.add_before(self.get_node(i), x)
 
     def _remove(self, w: Node):
