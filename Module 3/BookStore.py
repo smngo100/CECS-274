@@ -5,11 +5,11 @@ import RandomQueue
 import DLList
 import SLLQueue
 import MaxQueue
+import time
 #import ChainedHashTable
 #import BinarySearchTree
 #import BinaryHeap
 #import AdjacencyList
-import time
 
 class BookStore:
     '''
