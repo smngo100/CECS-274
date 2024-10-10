@@ -59,7 +59,11 @@ def menu_bookstore_system():
             infix = input("Introduce the query to search: ")
             bookStore.searchBookByInfix(infix)
         elif option == "6":
-            bookStore.getCartBestSeller()
+            best_seller = bookStore.getCartBestSeller()
+            if best_seller: 
+                print(f"Best seller: {best_seller}")
+            else: 
+                print("No books in cart")
         ''' 
         Add the menu options when needed
         '''
