@@ -58,7 +58,7 @@ class DLList(List):
         return self.add_before(self.get_node(i), x)
 
     def _remove(self, w: Node):
-        if i < 0 or i >= self.n: # Precondition
+        if w < 0 or w >= self.n: # Precondition
             raise IndexError()
         w = self.get_node(i)
         w.prev.next = w.next
