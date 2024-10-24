@@ -1,5 +1,3 @@
-from operator import index
-
 from Interfaces import Set
 from DLList import DLList
 import numpy as np
