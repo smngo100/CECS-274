@@ -1,14 +1,15 @@
 import numpy as np
 import ArrayStack
+import ChainedHashTable
 #import BinaryTree
-#import ChainedHashTable
+import ChainedHashTable
 #import DLList
-#import operator
-
+import operator
+import re
 
 class Calculator:
     def __init__(self):
-        self.dict = None
+        self.dict = ChainedHashTable.ChainedHashTable()
 
     def set_variable(self, k: str, v: float):
         self.dict.add(k, v)
@@ -41,3 +42,18 @@ class Calculator:
     def evaluate(self, exp):
         parseTree = self.build_parse_tree(exp)
         return self._evaluate(parseTree.r)
+
+    def print_expression(self, expr):
+        variables = [x for x in re.split(r'\W+', expr) if x.isalnum()]
+        everything_else = re.split(r'\w+', expr)
+        result = ""
+        for i in range(len(variables)):
+            result += everything_else[i]
+            value = self.dict.find(variables[i])
+            if value is not None:
+                result += str(value)
+            else:
+                result += variables[i]
+        if len(everything_else) > len(variables):
+            result += everything_else[-1]
+        print(result)
