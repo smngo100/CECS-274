@@ -36,9 +36,9 @@ def menu_calculator():
                 print("Invalid expression")
         elif option == "4":
             expression = input("Enter the expression: ")
-            result = calculator.evaluate_expression(expression)
             if calculator.matched_expression(expression):
-                print(f"Evaluating expression: {calculator.evaluate_expression(expression)}")
+                print(f"Evaluating expression: {calculator.print_expression(expression)}")
+                result = calculator.evaluate(expression)
                 print(f"Result: {result}")
             else:
                 print("Result: Error - Not all variables are defined.")
@@ -94,7 +94,11 @@ def menu_bookstore_system():
             bookStore.addBookByKey(key)
         elif option == "8":
             prefix = input("Introduce the prefix: ")
-            bookStore.addBookByPrefix(prefix)
+            result = bookStore.addBookByPrefix(prefix)
+            if result is not None:
+                print(f"Added first matched title: {result}")
+            else:
+                print("Error: Prefix was not found.")
         ''' 
         Add the menu options when needed
         '''
