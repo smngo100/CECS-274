@@ -144,13 +144,11 @@ class BookStore:
             print("Book not found...")
 
     def addBookByPrefix(self, prefix):
-        start_time = time.time()
         i = self.sortedTitleIndices.find(prefix)
         if i is not None:
             book = self.bookCatalog.get(i)
-            self.shoppingCart.add(book)
-            if self.title[0:self.n] == prefix:
-                self.n == len(prefix)
-                print(f"Added first matched title: {book.title}")
-        else:
-            print("Error: Prefix was not found.")
+            n = len(prefix)
+            if book.title[0:n] == prefix:
+                self.shoppingCart.add(book)
+                return book.title
+        return None
