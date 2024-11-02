@@ -30,10 +30,10 @@ class Calculator:
             return False
 
     def build_parse_tree(self, exp: str) -> str:
+        if not self.matched_expression(exp):
+            raise ValueError
         pattern = r'\(|\)|\[|\]|{|}|\+|\-|\*|/|,|\.|[a-zA-Z_][a-zA-Z0-9_]*|\d+|\s+'
         tokens = re.findall(pattern, exp)
-        if exp != pattern:
-            raise ValueError
         t = BinaryTree.BinaryTree()
         current = t.r
         for token in tokens:
@@ -49,7 +49,7 @@ class Calculator:
                 current = current.right
             elif token.isalnum:
                 current.set_key(token)
-                current.set_value(dict.find(token))
+                current.set_value(self.variables.get(token, token))
                 current = current.parent
             elif token == ')':
                 current = current.parent
@@ -58,8 +58,8 @@ class Calculator:
     def _evaluate(self, root):
         op = {'+': operator.add, '-': operator.sub, '*': operator.mul, '/': operator.truediv}
         if root.left is not None and root.right is not None:
-            op = root.k
-            return self._evaluate(root.left), self.evaluate(root.right)
+            operation = op[root.k]
+            return operation(self._evaluate(root.left), self.evaluate(root.right))
         elif root.left is None and root.right is None:
             if root.k is None:
                 raise ValueError("Missing an operand")
