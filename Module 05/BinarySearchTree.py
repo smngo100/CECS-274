@@ -153,3 +153,16 @@ class BinarySearchTree(BinaryTree, Set):
                 w = w.parent
             w = w.parent
         return w
+
+    def given_key(self, key: object):
+        current = self.r
+        smallest = None
+        while current is not None:
+            if key < current.k:
+                smallest = current
+                current = current.left
+            elif key > current.k:
+                current = current.right
+            else:
+                    return current
+        return smallest
