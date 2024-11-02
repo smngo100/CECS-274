@@ -1,7 +1,6 @@
-import numpy as np
 import ArrayStack
 import ChainedHashTable
-#import BinaryTree
+import BinaryTree
 import ChainedHashTable
 #import DLList
 import operator
@@ -31,13 +30,45 @@ class Calculator:
             return False
 
     def build_parse_tree(self, exp: str) -> str:
-        # todo
-        pass
+        pattern = r'\(|\)|\[|\]|{|}|\+|\-|\*|/|,|\.|[a-zA-Z_][a-zA-Z0-9_]*|\d+|\s+'
+        tokens = re.findall(pattern, exp)
+        if exp != pattern:
+            raise ValueError
+        t = BinaryTree.BinaryTree()
+        current = t.r
+        for token in tokens:
+            if token == '(':
+                current.left = BinaryTree.BinaryTree.Node()
+                current.left.parent = current
+                current = current.left
+            elif token in {'+', '-', '/', '*'}:
+                current.set_value(token)
+                current.set_key(token)
+                current.right = BinaryTree.BinaryTree.Node()
+                current.right.parent = current
+                current = current.right
+            elif token.isalnum:
+                current.set_key(token)
+                current.set_value(dict.find(token))
+                current = current.parent
+            elif token == ')':
+                current = current.parent
+        return t
 
     def _evaluate(self, root):
         op = {'+': operator.add, '-': operator.sub, '*': operator.mul, '/': operator.truediv}
-        # todo
-        pass
+        if root.left is not None and root.right is not None:
+            op = root.k
+            return self._evaluate(root.left), self.evaluate(root.right)
+        elif root.left is None and root.right is None:
+            if root.k is None:
+                raise ValueError("Missing an operand")
+            elif root.k in self.variables:
+                return self.variables[root.k]
+            else:
+                raise ValueError(f"Missing definition for variable {root.k}")
+        else:
+            raise ValueError("Missing an operand")
 
     def evaluate(self, exp):
         parseTree = self.build_parse_tree(exp)
