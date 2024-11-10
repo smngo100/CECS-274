@@ -38,18 +38,14 @@ class Calculator:
         current = t.r
         for token in tokens:
             if token == '(':
-                current.left = BinaryTree.BinaryTree.Node()
-                current.left.parent = current
+                current.left = BinaryTree.Node(token)
                 current = current.left
             elif token in {'+', '-', '/', '*'}:
                 current.set_value(token)
                 current.set_key(token)
-                current.right = BinaryTree.BinaryTree.Node()
-                current.right.parent = current
-                current = current.right
             elif token.isalnum:
                 current.set_key(token)
-                current.set_value(self.variables.get(token, token))
+                current.set_value(dict.find(token))
                 current = current.parent
             elif token == ')':
                 current = current.parent
@@ -58,8 +54,8 @@ class Calculator:
     def _evaluate(self, root):
         op = {'+': operator.add, '-': operator.sub, '*': operator.mul, '/': operator.truediv}
         if root.left is not None and root.right is not None:
-            operation = op[root.k]
-            return operation(self._evaluate(root.left), self.evaluate(root.right))
+            op = root.k
+            return op(self._evaluate(root.left), self.evaluate(root.right))
         elif root.left is None and root.right is None:
             if root.k is None:
                 raise ValueError("Missing an operand")
