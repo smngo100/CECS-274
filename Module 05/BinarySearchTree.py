@@ -1,12 +1,12 @@
 from BinaryTree import BinaryTree
 from Interfaces import Set
-
+ 
 class BinarySearchTree(BinaryTree, Set):
-
+ 
     def __init__(self):
         BinaryTree.__init__(self)
         self.n = 0
-
+ 
     def add(self, key: object, value: object = None) -> bool:
         """
         If the key does not exist in this BinarySearchTree,
@@ -16,7 +16,7 @@ class BinarySearchTree(BinaryTree, Set):
         new_node = self.Node(key, value)
         parent = self._find_last(key)
         return self._add_child(parent, new_node)
-
+ 
     def find(self, key: object) -> object:
         """
         returns the value corresponding to the given key if the key
@@ -26,7 +26,7 @@ class BinarySearchTree(BinaryTree, Set):
         if node is None:
             return None
         return node.v
-
+ 
     def remove(self, key: object):
         """
         removes the node with given key if it exists in this BinarySearchTree.
@@ -39,7 +39,7 @@ class BinarySearchTree(BinaryTree, Set):
         value = u.v
         self._remove_node(u)
         return value
-
+ 
     def _find_eq(self, key: object) -> BinaryTree.Node:
         """
         helper method; returns the node in this tree that contains the given key,
@@ -54,7 +54,7 @@ class BinarySearchTree(BinaryTree, Set):
             else:
                 return current
         return None
-
+ 
     def _find_last(self, key: object) -> BinaryTree.Node:
         """
         helper method; returns the node in this tree that contains the given key, if it exists.
@@ -72,7 +72,7 @@ class BinarySearchTree(BinaryTree, Set):
             else:
                 return current
         return parent
-
+ 
     def _add_child(self, p: BinaryTree.Node, u: BinaryTree.Node) -> bool:
         """
         helper method; adds node u as the child of node p, assuming node p has at most 1 child
@@ -89,7 +89,7 @@ class BinarySearchTree(BinaryTree, Set):
             u.parent = p
         self.n += 1
         return True
-
+ 
     def _splice(self, u: BinaryTree.Node):
         """
         helper method; links the parent of given node u to the child
@@ -111,7 +111,7 @@ class BinarySearchTree(BinaryTree, Set):
         if child is not None:
             child.parent = p
         self.n -= 1
-
+ 
     def _remove_node(self, u: BinaryTree.Node):
         if u.left is None or u.right is None:
             self._splice(u)
@@ -122,27 +122,27 @@ class BinarySearchTree(BinaryTree, Set):
             u.k = w.k
             u.v = w.v
             self._splice(w)
-
+ 
     def clear(self):
         """
         empties this BinarySearchTree
         """
         self.r = None
         self.n = 0
-
+ 
     def __iter__(self):
         u = self.first_node()
         while u is not None:
             yield u.k
             u = self.next_node(u)
-
+ 
     def first_node(self):
         w = self.r
         if w is None: return None
         while w.left is not None:
             w = w.left
         return w
-
+ 
     def next_node(self, w):
         if w.right is not None:
             w = w.right
@@ -153,8 +153,8 @@ class BinarySearchTree(BinaryTree, Set):
                 w = w.parent
             w = w.parent
         return w
-
-    def given_key(self, key: object):
+ 
+    def _find_next(self, key: object):
         current = self.r
         smallest = None
         while current is not None:
@@ -164,5 +164,5 @@ class BinarySearchTree(BinaryTree, Set):
             elif key > current.k:
                 current = current.right
             else:
-                    return current
+                return current
         return smallest
