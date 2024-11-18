@@ -1,156 +1,101 @@
-import Book
-import ArrayList
-import ArrayQueue
-import RandomQueue
-import DLList
-import SLLQueue
-import MaxQueue
-import time
+import ArrayStack
+import BinaryTree
 import ChainedHashTable
-import BinarySearchTree
-#import BinaryHeap
-#import AdjacencyList
+# import DLList
+import operator
+import re
  
-class BookStore:
-    '''
-    BookStore: It simulates a book system such as Amazon. It allows  searching,
-    removing and adding in a shopping cart.
-    '''
- 
+class Calculator:
     def __init__(self):
-        self.bookCatalog = None
-        self.shoppingCart = MaxQueue.MaxQueue()
-        self.bookIndices = ChainedHashTable.ChainedHashTable()
-        self.sortedTitleIndices = BinarySearchTree.BinarySearchTree()
+        self.dict = ChainedHashTable.ChainedHashTable()
  
-    def loadCatalog(self, fileName: str):
-        '''
-            loadCatalog: Read the file filenName and creates the array list with all books.
-                book records are separated by  ^. The order is key,
-                title, group, rank (number of copies sold) and similar books
-        '''
-        self.bookCatalog = ArrayList.ArrayList()
-        with open(fileName, encoding="utf8") as f:
-            # The following line is the time that the computation starts
-            start_time = time.time()
-            for line in f:
-                (key, title, group, rank, similar) = line.split("^")
-                s = Book.Book(key, title, group, rank, similar)
-                self.bookCatalog.append(s)
-                #self.bookIndices.add(key, self.bookCatalog.size() - 1)
-                self.sortedTitleIndices.add(title, self.bookCatalog.size() - 1)
-            # The following line is used to calculate the total time
-            # of execution
-            elapsed_time = time.time() - start_time
-            print(f"Loading {self.bookCatalog.size()} books in {elapsed_time} seconds")
+    def set_variable(self, k: str, v: float):
+        self.dict.add(k, v)
  
-    def setRandomShoppingCart(self):
-        q = self.shoppingCart
-        start_time = time.time()
-        self.shoppingCart = RandomQueue.RandomQueue()
-        while q.size() > 0:
-            self.shoppingCart.add(q.remove())
-        elapsed_time = time.time() - start_time
-        print(f"Setting radomShoppingCart in {elapsed_time} seconds")
- 
-    def setShoppingCart(self):
-        q = self.shoppingCart
-        start_time = time.time()
-        self.shoppingCart = ArrayQueue.ArrayQueue()
-        while q.size() > 0:
-            self.shoppingCart.add(q.remove())
-        elapsed_time = time.time() - start_time
-        print(f"Setting radomShoppingCart in {elapsed_time} seconds")
- 
-    def removeFromCatalog(self, i: int):
-        '''
-        removeFromCatalog: Remove from the bookCatalog the book with the index i
-        input:
-            i: positive integer
-        '''
-        # The following line is the time that the computation starts
-        start_time = time.time()
-        self.bookCatalog.remove(i)
-        # The following line is used to calculate the total time
-        # of execution
-        elapsed_time = time.time() - start_time
-        print(f"Remove book {i} from books in {elapsed_time} seconds")
- 
-    def addBookByIndex(self, i: int):
-        '''
-        addBookByIndex: Inserts into the playlist the song of the list at index i
-        input:
-            i: positive integer
-        '''
-        # Validating the index. Otherwise it  crashes
-        if i >= 0 and i < self.bookCatalog.size():
-            start_time = time.time()
-            s = self.bookCatalog.get(i)
-            self.shoppingCart.add(s)
-            elapsed_time = time.time() - start_time
-            print(f"Added to shopping cart {s} \n{elapsed_time} seconds")
- 
-    def searchBookByInfix(self, infix: str, cnt: int = 15):
-        '''
-        searchBookByInfix: Search all the books that contains infix
-        input: 
-            infix: A string    
-        '''
-        start_time = time.time()
-        count = 0
- 
-        for i in self.bookCatalog:
-            if infix in i.title:
-                count += 1
-                print(i)
-            if count == cnt:
-                break
- 
-        elapsed_time = time.time() - start_time
-        print(f"searchBookByInfix Completed in {elapsed_time} seconds")
- 
-    def removeFromShoppingCart(self):
-        '''
-        removeFromShoppingCart: remove one book from the shopping cart
-        '''
-        start_time = time.time()
-        if self.shoppingCart.size() > 0:
-            u = self.shoppingCart.remove()
-            elapsed_time = time.time() - start_time
-            print(f"removeFromShoppingCart {u} Completed in {elapsed_time} seconds")
- 
-    def getCartBestSeller(self):
-        start_time = time.time()
-        if self.shoppingCart.size() > 0:
-            best_seller = self.shoppingCart.max().title
-            elapsed_time = time.time() - start_time
-            print(f"getCartBestSeller returned \n{best_seller} \nCompleted in {elapsed_time}seconds")
-            return best_seller
+    def matched_expression(self, s: str) -> bool:
+        stack = ArrayStack.ArrayStack()
+        for i in s:
+            if i == "(":
+                stack.push("(")
+            elif i == ")":
+                try:
+                    stack.pop()
+                except IndexError:
+                    return False
+        size = stack.size()
+        if size == 0:
+            return True
         else:
-            return None
+            return False
  
-    def addBookByKey(self, key):
-        start_time = time.time()
-        i = self.bookIndices.find(key)
-        if i is not None:
-            book = self.bookCatalog.get(i)
-            self.shoppingCart.add(book)
-            elapsed_time = time.time() - start_time
-            print(f"addBookByKey Completed in {elapsed_time} seconds")
-            print(f"Added title: {book.title}")
+    def _build_parse_tree(self, exp: str) -> str:
+        if not self.matched_expression(exp):
+            raise ValueError("Expression contains unmatched parentheses")
+        pattern = r'\(|\)|\[|\]|{|}|\+|\-|\*|/|,|\.|[a-zA-Z_][a-zA-Z0-9_]*|\d+|\s+'
+        tokens = re.findall(pattern, exp)
+        variables = [x for x in re.split(r'\W+', exp) if x.isalnum()]
+        t = BinaryTree.BinaryTree()
+        t.r = BinaryTree.BinaryTree.Node()
+        current = t.r
+        for token in tokens:
+            if token == '(':
+                current.left = BinaryTree.BinaryTree.Node()
+                current.left.parent = current
+                current = current.left
+            elif token in {'+', '-', '*', '/'}:
+                current.set_val(token)
+                current.set_key(token)
+                current.right = BinaryTree.BinaryTree.Node()
+                current.right.parent = current
+                current = current.right
+            elif token in variables:
+                current.set_key(token)
+                val = self.dict.find(token)
+                if val is None:
+                    raise ValueError(f"Missing value for variable '{token}'")
+                current.set_val(val)
+                current = current.parent
+            elif token == ')':
+                current = current.parent
+            else:
+                raise ValueError(f"{token} is an invalid token in the expression")
+        return t
+ 
+    def _evaluate(self, root):
+        op = {'+': operator.add, '-': operator.sub, '*': operator.mul, '/': operator.truediv}
+        if root.left is not None and root.right is not None:
+            operation = op[root.k]
+            return operation(self._evaluate(root.left), self._evaluate(root.right))
+        elif root.left is None and root.right is None:
+            if root.k is None:
+                raise ValueError("Missing an operand")
+            value = self.dict.find(root.k)
+            if value is not None:
+                return value
+            else:
+                raise ValueError(f"Missing definition for variable {root.k}")
         else:
-            elapsed_time = time.time() - start_time
-            print(f"addBookByKey Completed in {elapsed_time} seconds")
-            print("Book not found...")
+            raise ValueError("Missing an operand")
  
-    def addBookByPrefix(self, prefix):
-        if not prefix:
-            return None
-        i = self.sortedTitleIndices._find_next(prefix)
-        if i is not None:
-            book = self.bookCatalog.get(i.v)
-            n = len(prefix)
-            if book.title[0:n] == prefix:
-                self.shoppingCart.add(book)
-                return book.title
-        return None
+    def evaluate(self, exp):
+        try:
+            parseTree = self._build_parse_tree(exp)
+        except ValueError:
+            return "Error - Not all variable values are defined."
+        else:
+            return self._evaluate(parseTree.r)
+ 
+    def print_expression(self, expr):
+        variables = [x for x in re.split(r'\W+', expr) if x.isalnum()]
+        everything_else = re.split(r'\w+', expr)
+        result = ""
+        for i in range(len(variables)):
+            result += everything_else[i]
+            value = self.dict.find(variables[i])
+            if value is not None:
+                result += str(value)
+            else:
+                result += variables[i]
+        if len(everything_else) > len(variables):
+            result += everything_else[-1]
+        print(result)
