@@ -1,4 +1,5 @@
 # Version 1 of _merge helper function 
+# a[i] = the element at index i of array a
 def _merge(leftArray, rightArray, array):
 	i = 0 # left tracking position / index
 	j = 0 # right tracking position / index
