@@ -1,21 +1,42 @@
-"""Implementations of some sorting"""
-import random
+# Version 1 of _merge helper function 
+def _merge(leftArray, rightArray, array):
+    i = 0 # left tracking position
+    j = 0 # right tracking position 
+    n = len(array) # number of elements in the array
+
+    for i in range(n):
+        if
+            array[i] = rightArray[j]
+            j += 1 
+        
+# Version 2 of _merge helper function 
+def _merge(leftArray, rightArray, array):
+	i = 0 # left tracking position
+    j = 0 # right tracking position  
+    n = len(array) # number of elements in the array
+	
+	while i < len(leftArray) and j < len(rightArray): 
+		If leftArray[i] < rightArray[j]:
+			result.append(left[i])
+			i += 1 
+		Else:
+			result.append(right[j]
+			j += 1 
 
 
-def merge(a0, a1, a):
-    # todo
-    pass   
+def Merge_sort(array):
+	if len(array) <= 1: 
+		return array 
+		
+	mid = len(array) // 2 
+	leftHalf = array[:mid]
+	rightHalf = array[mid:]
+	
+	sorted_left_half = merge_sort(leftHalf)
+	sorted_right_half = merge_sort(rightHalf)
+	
+	return _merga(sorted_left_half, sorted_right_half, array)
+	
 
-def merge_sort(a):
-    # todo
-    pass   
-
-
-def _quick_sort(a, i, n):
-    # todo
-    pass   
-
-
-def quick_sort(a):
-    _quick_sort(a, 0, len(a))
     
+
