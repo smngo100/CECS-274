@@ -1,25 +1,32 @@
 # Version 1 of _merge helper function 
 def _merge(leftArray, rightArray, array):
-    i = 0 # left tracking position
-    j = 0 # right tracking position 
-    n = len(array) # number of elements in the array
+	i = 0 # left tracking position / index
+	j = 0 # right tracking position / index
+	n = len(array) # number of elements in the array
 
-    for i in range(n):
-        if
-            array[i] = rightArray[j]
-            j += 1 
+	for i in range(n):
+	        if i >= len(leftArray):	# Means we've reached or passed the end of the array
+			array[i] = rightArray[j]
+			j += 1
+		elif j >= len(rightArray): 
+			array[i] = leftArray[i]
+			i += 1 
+		else: 
+			a[i] = rightArray[j]
+			j += 1 
+			
         
 # Version 2 of _merge helper function 
 def _merge(leftArray, rightArray, array):
 	i = 0 # left tracking position
-    j = 0 # right tracking position  
-    n = len(array) # number of elements in the array
+	j = 0 # right tracking position  
+	n = len(array) # number of elements in the array
 	
 	while i < len(leftArray) and j < len(rightArray): 
-		If leftArray[i] < rightArray[j]:
+		if leftArray[i] < rightArray[j]:
 			result.append(left[i])
 			i += 1 
-		Else:
+		else:
 			result.append(right[j]
 			j += 1 
 
