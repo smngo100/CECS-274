@@ -66,21 +66,20 @@ def merge_sort(a: List):
 
 
 def _partition_f(a: List, start, end):
-    n = len(a)
     pivot = a[start]
     l = start + 1
     r = end
 
-    while l < r:
+    while l <= r:
         # Find element larger than pivot from left
-        while l <= end and a[l] <= pivot:     # traversing from start-to-end
+        while l <= r and a[l] <= pivot:     # traversing from start-to-end
             l += 1
 
         # Find element smaller than pivot from right
-        while r >= start and a[r] > pivot:      # traversing from end-to-start
+        while r >= l and a[r] > pivot:      # traversing from end-to-start
             r -= 1
 
-        # Swap if pointers haven't crossed
+        # Swap elements if pointers haven't crossed
         if l < r:
             a[l], a[r] = a[r], a[l]
 
@@ -99,18 +98,33 @@ def _quick_sort_f(a: List, start, end):
         # Recursion
         _quick_sort_f(a, start, p - 1)  # first half
         _quick_sort_f(a, p + 1, end)    # second half
-    elif start >= end:
-        return a
 
 
 def _partition_r(a: List, start, end):
-    n = len(a)
+    # Choose random element, then swap that random element with the first element to be the pivot
     pivot_r = random.randint(start, end)
+    a[start], a[pivot_r] = a[pivot_r], a[start]
+
+    pivot = a[start]
     l = start + 1
     r = end
 
-    a[start], a[pivot_r] = a[pivot_r], a[start]
-    return pivot_r
+    while l <= r:
+        # Find element larger than pivot from left
+        while l <= r and a[l] <= pivot:     # traversing from start-to-end
+            l += 1
+
+        # Find element smaller than pivot from right
+        while r >= l and a[r] > pivot:      # traversing from end-to-start
+            r -= 1
+
+        # Swap elements if pointers haven't crossed
+        if l < r:
+            a[l], a[r] = a[r], a[l]
+
+    # Place pivot in its correct position
+    a[start], a[r] = a[r], a[start]
+    return r
 
 
 def _quick_sort_r(a: List, start, end):
