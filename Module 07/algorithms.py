@@ -70,6 +70,16 @@ def _quick_sort_f(a: List, start, end):
         	return a
 
 
+def _partition_r(a: List, start, end):
+    n = len(a)
+    pivot_r = random.randint(start)
+    i = start + 1 
+    j = end - 1
+
+    a[start], a[pivot_r] = a[pivot_r], a[start]
+    return _partition_f
+	
+
 def _quick_sort_r(a: List, start, end):
 	if start < end:
         	p = _partition_f(a, start, end)
