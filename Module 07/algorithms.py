@@ -146,8 +146,6 @@ def quick_sort(a: List, p=True):
     Otherwise, the quick sort algorithm uses the first element as pivot.
     """
     if p:
-        #a.a.sort()
         _quick_sort_r(a, 0, len(a) - 1)
     else:
-        #a.a.sort()
         _quick_sort_f(a, 0, len(a) - 1)
