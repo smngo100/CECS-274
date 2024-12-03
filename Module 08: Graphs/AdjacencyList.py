@@ -8,34 +8,45 @@ import ArrayStack
 
 class AdjacencyList(Graph):
     def __init__(self, n : int):
-        self.n = n
+        self.n = n    # number of nodes 
         self.adj = np.zeros(n, object)
         for i in range(self.n):
             self.adj[i] = ArrayList.ArrayList()
             
     def add_edge(self, i : int, j : int):
-        # todo
+        # todo        # add the edge (i, j) to E    
         pass
 
     def remove_edge(self, i : int, j : int):
-        # todo
+        # todo        # remove the edge (i, j) from E 
         pass
                 
     def has_edge(self, i : int, j: int) ->bool:
-        # todo
+        # todo        # returns true if the edge (i, j) exists in E 
         pass
         
     def out_edges(self, i) -> List:
-        # todo
+        # todo        # returns a list of all integers j such that (i, j) ∈ E 
         pass
 
     def in_edges(self, i) -> List:
-        # todo
+        # todo        # returns a list of all integers i such that (i, j) ∈ E 
         pass
     
     def bfs(self, r : int, dest: int):
-        # todo
-        pass    
+        traversal = []    # empty list to store the vertices in the order that they are visited
+        seen = [] # Boolean values 
+        q = []    # empty queue to keep track of the vertices for which we must visit neighbors
+
+       q.append(i)
+       traversal.append(i)
+       seen[i] = True 
+
+       while q is not None:
+           current = q.remove()    # temp variable
+           neighbors = current    # temp variable
+
+            for 
 
     def dfs(self, r : int, dest: int):
         # todo
