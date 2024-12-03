@@ -9,23 +9,20 @@ class AdjacencyMatrix(Graph):
         self.adj = np.zeros(n*n)
 
     def add_edge(self, i : int, j : int):
-        # todo
-        pass
+        a[i][j] = True    # add the edge (i, j) to E   
 
     def remove_edge(self, i : int, j : int):
-        # todo
-        pass
+        a[i][j] = False    # remove the edge (i, j) from E 
 
     def has_edge(self, i : int, j: int) ->bool:
-        # todo
-        pass
+        return a[i][j]    # returns true if the edje (i, j) exists in E 
 
     def out_edges(self, i) -> List:
-        # todo
+        # todo        # returns a list of all integers j such that (i, j) ∈ E
         pass
 
     def in_edges(self, i) -> List:
-        # todo
+        # todo         # returns a list of all integers i such that (i, j) ∈ E
         pass
 
     def bfs(self, r : int):
