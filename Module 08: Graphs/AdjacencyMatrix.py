@@ -9,8 +9,10 @@ class AdjacencyMatrix(Graph):
         self.n = n
         self.adj = np.zeros([n,n])
 
+    
     def add_edge(self, i : int, j : int):
         if 0 <= i and j < self.n:
+       
             self.adj[i][j] = 1
 
     def remove_edge(self, i : int, j : int):
@@ -19,9 +21,11 @@ class AdjacencyMatrix(Graph):
             return True
         return False
 
+    
     def has_edge(self, i : int, j: int) ->bool:
         return self.adj[i][j] == 1
 
+    
     def out_edges(self, i) -> List:
         edges = []
         for j in range(len(self.adj[i])):   # for every entry at column j in row i
@@ -29,6 +33,7 @@ class AdjacencyMatrix(Graph):
                 edges.append(j)
         return edges
 
+    
     def in_edges(self, j) -> List:
         edges = []
         for i in range(len(self.adj)):   # for every row i at column j
@@ -36,6 +41,7 @@ class AdjacencyMatrix(Graph):
                 edges.append(i)
         return edges
 
+    
     def bfs(self, r : int):
         traversal = []  # empty list traversal
         seen = [False] * self.n   # empty list seen
@@ -57,6 +63,7 @@ class AdjacencyMatrix(Graph):
                     seen[jk] = True
         return traversal
 
+    
     def dfs(self, r : int):
         traversal = []  # empty list traversal
         s = ArrayStack.ArrayStack()
@@ -73,9 +80,11 @@ class AdjacencyMatrix(Graph):
                     s.push(neighbor)
         return traversal
 
+    
     def size(self):
         return self.n
 
+    
     def __str__(self):
         s = ""
         for i in range(0, self.n):
