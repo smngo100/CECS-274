@@ -1,57 +1,89 @@
 """An implementation of the adjacency list representation of a graph"""
 from Interfaces import Graph, List
 import numpy as np
-import copy
 import ArrayList
 import ArrayStack
 
 
 class AdjacencyList(Graph):
     def __init__(self, n : int):
-        self.n = n    # number of nodes 
+        self.n = n
         self.adj = np.zeros(n, object)
         for i in range(self.n):
             self.adj[i] = ArrayList.ArrayList()
             
     def add_edge(self, i : int, j : int):
-        # todo        # add the edge (i, j) to E    
-        pass
+        if 0 <= i and j < self.n:
+            if j not in self.adj[i]:
+                self.adj[i].append(j)
 
     def remove_edge(self, i : int, j : int):
-        # todo        # remove the edge (i, j) from E 
-        pass
+        if 0 <= i and j < self.n:
+            for k in range(len(self.adj[i])):
+                if self.adj[i][k] == j:
+                    self.adj[i].remove(k)
+                    return True
+            return False
                 
     def has_edge(self, i : int, j: int) ->bool:
-        # todo        # returns true if the edge (i, j) exists in E 
-        pass
+        if 0 <= i and j < self.n:
+            for k in range(len(self.adj[i])):
+                if self.adj[i].get(k) == j:
+                    return True
+            return False
         
     def out_edges(self, i) -> List:
-        # todo        # returns a list of all integers j such that (i, j) ∈ E 
-        pass
+        if 0 <= i < self.n:
+            return self.adj[i]
 
-    def in_edges(self, i) -> List:
-        # todo        # returns a list of all integers i such that (i, j) ∈ E 
-        pass
-    
-    def bfs(self, r : int, dest: int):
-        traversal = []    # empty list to store the vertices in the order that they are visited
-        seen = [] # Boolean values 
-        q = []    # empty queue to keep track of the vertices for which we must visit neighbors
+    def in_edges(self, j) -> List:
+        if 0 <= j < self.n:
+            incoming = []
+            for i in range(self.n):
+                if self.has_edge(i, j):
+                    incoming.append(i)
+            return incoming
 
-       q.append(i)
-       traversal.append(i)
-       seen[i] = True 
+    def bfs(self, r : int) -> List:
+        traversal = []  # empty list traversal
+        seen = [False] * self.n  # empty list seen
+        q = []  # empty queue to keep track of the vertices for which we must visit neighbors
 
-       while q is not None:
-           current = q.remove()    # temp variable
-           neighbors = current    # temp variable
+        # Visit vertex r
+        q.append(r)
+        traversal.append(r)
+        seen[r] = True
 
-            for 
+        while q:
+            current = q.pop(0)
+            neighbors = self.out_edges(current)
+            for jk in neighbors:
+                if seen[jk] == False:
+                    # Visit vertex jk
+                    q.append(jk)
+                    traversal.append(jk)
+                    seen[jk] = True
+        return traversal
 
-    def dfs(self, r : int, dest: int):
-        # todo
-        pass    
-                    
+    def dfs(self, r : int) -> List:
+        traversal = []  # empty list traversal
+        s = ArrayStack.ArrayStack()
+        seen = [False] * self.n
+        s.push(r)
+        while s.size() > 0:
+            current = s.pop()
+            if seen[current] == False:
+                traversal.append(current)
+                seen[current] = True
+            neighbors = self.out_edges(current)
+            for neighbor in reversed(neighbors):
+                if seen[neighbor] == False:
+                    s.push(neighbor)
+        return traversal
+
+    def size(self):
+        return self.n
+
     def __str__(self):
         s = ""
         for i in range(0, self.n):
