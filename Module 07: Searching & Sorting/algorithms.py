@@ -1,6 +1,5 @@
 """Implementations of some sorting"""
 import random
-
 from Interfaces import List
 
 
