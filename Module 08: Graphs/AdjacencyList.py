@@ -11,12 +11,14 @@ class AdjacencyList(Graph):
         self.adj = np.zeros(n, object)
         for i in range(self.n):
             self.adj[i] = ArrayList.ArrayList()
-            
+
+    
     def add_edge(self, i : int, j : int):
         if 0 <= i and j < self.n:
             if j not in self.adj[i]:
                 self.adj[i].append(j)
 
+    
     def remove_edge(self, i : int, j : int):
         if 0 <= i and j < self.n:
             for k in range(len(self.adj[i])):
@@ -24,18 +26,21 @@ class AdjacencyList(Graph):
                     self.adj[i].remove(k)
                     return True
             return False
-                
+
+    
     def has_edge(self, i : int, j: int) ->bool:
         if 0 <= i and j < self.n:
             for k in range(len(self.adj[i])):
                 if self.adj[i].get(k) == j:
                     return True
             return False
-        
+
+    
     def out_edges(self, i) -> List:
         if 0 <= i < self.n:
             return self.adj[i]
 
+    
     def in_edges(self, j) -> List:
         if 0 <= j < self.n:
             incoming = []
@@ -44,6 +49,7 @@ class AdjacencyList(Graph):
                     incoming.append(i)
             return incoming
 
+    
     def bfs(self, r : int) -> List:
         traversal = []  # empty list traversal
         seen = [False] * self.n  # empty list seen
@@ -65,6 +71,7 @@ class AdjacencyList(Graph):
                     seen[jk] = True
         return traversal
 
+    
     def dfs(self, r : int) -> List:
         traversal = []  # empty list traversal
         s = ArrayStack.ArrayStack()
@@ -81,9 +88,11 @@ class AdjacencyList(Graph):
                     s.push(neighbor)
         return traversal
 
+    
     def size(self):
         return self.n
 
+    
     def __str__(self):
         s = ""
         for i in range(0, self.n):
